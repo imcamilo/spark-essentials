@@ -1,0 +1,37 @@
+/.bsp/
+target/
+
+.gradle
+/build/
+/out
+bin/
+.DS_Store
+
+# Ignore Gradle GUI config
+gradle-app.setting
+
+# Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
+!gradle-wrapper.jar
+
+# Cache of project
+.gradletasknamecache
+
+# # Work around https://youtrack.jetbrains.com/issue/IDEA-116898
+# gradle/wrapper/gradle-wrapper.properties
+.idea
+/data/
+
+scripts/__pycache__/
+# helm values
+.kubernetes/prod/values.d/
+.kubernetes/qa/values.d/
+
+# local env file
+.env
+
+# Vs code
+.vscode
+
+## Docs
+docs/pages/
+docs/mkdocs.yml
