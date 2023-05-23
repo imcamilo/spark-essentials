@@ -14,7 +14,6 @@ object DataFrameBasics extends App {
 
   // spark session is our entry point for reading and writing data frames
 
-
   // 2. READING DATA FRAME
   // structure of the data is applied to the data frame in the form of a schema, which is the description
   // of the fields known as columns and the types for all those columns
@@ -87,6 +86,8 @@ object DataFrameBasics extends App {
     ("pontiac catalina", 14, 8, 455, 225, 4425, 10.0, "1970-01-01", "USA"),
     ("amc ambassador dpl", 15, 8, 390, 190, 3850, 8.5, "1970-01-01", "USA")
   )
+
+  // 3.1 CREATE DATAFRAME
   // the types of tuples will known at compile time
   // schema auto inferred
   val manualCarsDF = spark.createDataFrame(cars)
@@ -100,6 +101,7 @@ object DataFrameBasics extends App {
 
   import spark.implicits._
 
+  // 3.2 CREATE DATAFRAME
   val manualCarsDFWithImplicits = cars.toDF(
     "Name",
     "MPG",
