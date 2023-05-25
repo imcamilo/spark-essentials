@@ -110,4 +110,5 @@ object ExpressionsAndColumns extends App {
   //7. DISTINCT
   val allCountriesDF = carsDF.select("Origin").distinct()
   allCountriesDF.show()
+
 }
