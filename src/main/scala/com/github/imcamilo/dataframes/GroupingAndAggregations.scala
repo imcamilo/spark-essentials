@@ -60,10 +60,36 @@ object GroupingAndAggregations extends App {
     mean(col("Rotten_Tomatoes_Rating")),
     stddev(col("Rotten_Tomatoes_Rating"))
   )
-  utilsForDS.show()
+  // utilsForDS.show()
 
   // standard deviations means how close or how far the different values of Rotten Tomatoes Rating are to the mean.
   // a lower standard deviation will mean that the values are closer to the average
   // a higher standard deviation will mean that the values are more spread out over a wide spectrum
+
+  // GROUPING
+
+  // we want to not only coun the numbers of distincts genres in DF but rather how to compute how many movies we have
+  // for each of those genres and the way to we do that:
+
+  val countsByGenre = moviesDF
+    .groupBy(col("Major_Genre")) // RelationalGroupedDataset //includes nulls
+    .count()
+  // this would be the next sql: select count(*) from moviesDF group by Major_Genre
+  // countsByGenre.show()
+
+  val averageRatingByGenreDF = moviesDF
+    .groupBy(col("Major_Genre"))
+    .avg("IMDB_Rating")
+    .orderBy(col("Major_Genre"))
+  // averageRatingByGenreDF.show()
+
+  val aggregationsByGenreDF = moviesDF
+    .groupBy(col("Major_Genre"))
+    .agg(
+      count("*").as("N_movies"),
+      avg("IMDB_Rating").as("Avg_rating")
+    )
+    .orderBy(col("Avg_rating"))
+  // aggregationsByGenreDF.show()
 
 }
