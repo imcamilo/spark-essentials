@@ -77,6 +77,4 @@ object CommonTypes extends App {
     )
   vwReplaceDF.show()
 
-
-
 }
