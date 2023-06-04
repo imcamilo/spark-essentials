@@ -33,4 +33,5 @@ object CommonTypesExercises extends App {
   val bigFilter =
     carNamesFilters.fold(lit(false))((combinedFilter, newCarNameFilter) => combinedFilter or newCarNameFilter)
   carsDF.filter(bigFilter).show()
+
 }
