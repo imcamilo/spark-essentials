@@ -2,8 +2,6 @@ package com.github.imcamilo.typesdatasets
 
 import org.apache.spark.sql.{Dataset, Encoder, Encoders, SparkSession}
 
-import java.sql.Date
-
 object TypedDatasets extends App {
 
   val spark = SparkSession
@@ -57,10 +55,39 @@ object TypedDatasets extends App {
   // 4. CONVERT DATA FRAME TO DATA SET
   val carsDS = carsDF.as[Car]
 
-
-  //DS collection functions
+  // DS collection functions
   numbersDS.filter(_ < 100).show()
 
-  //map - flatMap - fold - reduce - for comprehension
-  carsDS.map(car => car.Name.toUpperCase()).show()
+  // map - flatMap - fold - reduce - for comprehension
+  // carsDS.map(car => car.Name.toUpperCase()).show()
+
+  // JOINS
+
+  case class Guitar(id: Long, model: String, make: String, guitarType: String)
+  case class GuitarPlayer(id: Long, name: String, guitars: List[Long], band: Long)
+  case class Band(id: Long, name: String, hometown: String, year: Long)
+
+  val guitarsDS = readDF("guitars.json").as[Guitar]
+  val guitarPlayersDS = readDF("guitarPlayers.json").as[GuitarPlayer]
+  val bandDS = readDF("bands.json").as[Band]
+
+  // if you use join you will lose the type information, use joinWith
+  // now I have a dataset of tuples
+  val guitarPlayerBandDS: Dataset[(GuitarPlayer, Band)] =
+    guitarPlayersDS.joinWith(bandDS, guitarPlayersDS.col("band") === bandDS.col("id"), "inner")
+
+  /*
+  +--------------------+--------------------+
+  |                  _1|                  _2| You can rename the columns calling .withColumnRenamed
+  +--------------------+--------------------+
+  |{1, [1], 1, Angus...|{Sydney, 1, AC/DC...|
+  |{0, [0], 0, Jimmy...|{London, 0, Led Z...|
+  |{3, [3], 3, Kirk ...|{Los Angeles, 3, ...|
+  +--------------------+--------------------+
+
+  this is the only main difference between joining Dataframes and joining Datasets, obtaining a datasets of tuples.
+   */
+
+  // guitarPlayerBandDS.show
+
 }

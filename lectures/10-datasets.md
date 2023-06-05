@@ -19,3 +19,5 @@ DataFrames are datasets as well. Because, DataFrame it's an alias of Dataset[Row
 ```scala
   type DataFrame = Dataset[Row]
 ```
+
+#### Joining and grouping
