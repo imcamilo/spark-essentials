@@ -72,7 +72,7 @@ object SparkSql extends App {
   // to fix it, add the config. ("spark.sql.legacy.allowCreatingManagedTableUsingNonemptyLocation", "true")
   // transferTables(List("employees", "departments", "dept_manager", "titles", "dept_emp", "salaries"))
 
-  // That's how you can tranfer tables from a regular database into spark database, into a data warehouse.
+  // THAT'S HOW YOU CAN TRANFER TABLES FROM A REGULAR DATABASE INTO SPARK DATABASE, INTO A DATA WAREHOUSE.
 
   // Read DataFrame from warehouse:
   // val employeesDF2: DataFrame = spark.read.table("dept_emp")
