@@ -14,3 +14,8 @@ Datasets are essentially a more powerful version of dataframes because we also h
 
 - performance is critical. Spark cant optimize transformations.
 
+DataFrames are datasets as well. Because, DataFrame it's an alias of Dataset[Row]. Row is a very generic type.
+
+```scala
+  type DataFrame = Dataset[Row]
+```
