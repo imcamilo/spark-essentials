@@ -88,6 +88,6 @@ object TypedDatasets extends App {
   this is the only main difference between joining Dataframes and joining Datasets, obtaining a datasets of tuples.
    */
 
-  // guitarPlayerBandDS.show
+  guitarPlayerBandDS.show
 
 }

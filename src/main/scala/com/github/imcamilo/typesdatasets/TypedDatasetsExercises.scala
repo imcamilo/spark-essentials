@@ -1,7 +1,7 @@
 package com.github.imcamilo.typesdatasets
 
-import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.functions._
+import org.apache.spark.sql.{KeyValueGroupedDataset, SparkSession}
 
 object TypedDatasetsExercises extends App {
 
@@ -65,4 +65,52 @@ object TypedDatasetsExercises extends App {
       avg("Horsepower")
     )
     .show()
+
+  // More
+
+  case class Guitar(id: Long, model: String, make: String, guitarType: String)
+
+  case class GuitarPlayer(id: Long, name: String, guitars: List[Long], band: Long)
+
+  case class Band(id: Long, name: String, hometown: String, year: Long)
+
+  val guitarsDS = readDF("guitars.json").as[Guitar]
+  val guitarPlayersDS = readDF("guitarPlayers.json").as[GuitarPlayer]
+  val bandDS = readDF("bands.json").as[Band]
+
+  // Join the guitarsDS and the guitarPlayersDS, in an outer join
+  // (hint: use array_contains)
+
+  val guitarsDetails =
+    guitarsDS.join(guitarPlayersDS.withColumnRenamed("id", "guitarId"), expr("array_contains(guitars, guitarId)"))
+
+  val guitarsDetails2 =
+    guitarPlayersDS.joinWith(guitarsDS, array_contains(guitarPlayersDS.col("guitars"), guitarsDS.col("id")), "outer")
+
+  // guitarsDetails2.show()
+
+  /*
+  +--------------------+--------------------+
+  |                  _1|                  _2|
+  +--------------------+--------------------+
+  |{0, [0], 0, Jimmy...|{Electric double-...|
+  |{2, [1, 5], 2, Er...|{Electric, 5, Fen...|
+  |{1, [1], 1, Angus...|{Electric, 1, Gib...|
+  |{2, [1, 5], 2, Er...|{Electric, 1, Gib...|
+  |                null|{Acoustic, 2, Tay...|
+  |{3, [3], 3, Kirk ...|{Electric, 3, ESP...|
+  +--------------------+--------------------+
+   */
+
+  // GROUPING
+//use groupByKey
+  // group cars by origin
+
+  val carsGroupedByOrigin: KeyValueGroupedDataset[String, Car] = carsDS.groupByKey(_.Origin)
+  carsGroupedByOrigin
+    .count()
+    .show()
+
+  // JOINS and GROUPS are WIDE transformations, will involve shuffle operations
+
 }
