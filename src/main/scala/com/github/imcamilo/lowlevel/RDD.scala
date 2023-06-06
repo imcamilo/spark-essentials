@@ -1,7 +1,7 @@
 package com.github.imcamilo.lowlevel
 
 import org.apache.spark.rdd.RDD
-import org.apache.spark.sql.{Dataset, Row, SparkSession}
+import org.apache.spark.sql.{DataFrame, Dataset, Row, SparkSession}
 
 import scala.io.Source
 
@@ -57,5 +57,15 @@ object RDD extends App {
   val stocks3RDD = stocksDS.rdd
   // The converstion its necessary because it I dont make the DS first, I will obtain a RDD[Row] and you'll lose the type information
   val stocksXRDD: RDD[Row] = stocksDF.rdd
+
+  // CONVERT FROM RDD TO DF/DS
+
+  // RDD -> DataFrame
+  // if we have an rdd with multiple fields/columns, must pass the column names as well
+  // you lose the type information, doesnt have any types, does have rows
+  val numbersDF: DataFrame = numbersRDD.toDF("numbers")
+
+  // RDD -> DataSet
+  val numbersDS: Dataset[Int] = spark.createDataset(numbersRDD) // Dataset[Int]
 
 }
