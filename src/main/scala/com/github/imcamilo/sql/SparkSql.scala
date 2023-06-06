@@ -57,13 +57,13 @@ object SparkSql extends App {
       )
       .load()
 
-  def transferTables(tableNames: List[String]): Unit = tableNames.foreach { tname =>
+  def transferTables(tableNames: List[String]): Unit = tableNames.foreach { tableName =>
     {
-      val tableDF = readTable(tname)
-      tableDF.createOrReplaceTempView(tname)
+      val tableDF = readTable(tableName)
+      tableDF.createOrReplaceTempView(tableName)
       tableDF.write
         .mode(SaveMode.Overwrite)
-        .saveAsTable(tname) // will save this dataframe under the name employees in the rtjvm im currently using
+        .saveAsTable(tableName) // will save this dataframe under the name employees in the rtjvm im currently using
     }
   }
 
